@@ -15,7 +15,7 @@ stages:
           demands:
             - npm
         variables:
-          wwwroot: 'Tailspin.SpaceGame.Web/wwwroot'
+          wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
           dotnetVersion: '8.x'
         steps:
           - task: UseDotNet@2
@@ -63,3 +63,9 @@ stages:
 
           - publish: '$(Build.ArtifactStagingDirectory)'
             artifact: drop       
+  
+  - stage: Deploy
+    displayName: Deploy stage
+    dependsOn: Build
+    jobs:
+      
