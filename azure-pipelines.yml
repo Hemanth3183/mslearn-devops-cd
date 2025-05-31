@@ -63,4 +63,28 @@ stages:
 
           - publish: '$(Build.ArtifactStagingDirectory)'
             artifact: drop
-      
+  
+  - stage: Deploy
+    displayName: "Deploy the web application"
+    dependsOn: Build
+    jobs:      
+      - deployment: Deploy
+        pool:
+          vmImage: 'ubuntu-latest'
+        displayName: "Deploy job"
+        environment: 'DEV'
+        variables:
+          - group: 'mslearn-vg'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - task: AzureWebApp@1
+                  displayName: 'Deploy to Azure Web App'
+                  inputs:
+                    azureSubscription: "Az_RM_App_Registration"
+                    appName: '$(WebAppName)'
+                    package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+                    appType: 'webAppLinux'
