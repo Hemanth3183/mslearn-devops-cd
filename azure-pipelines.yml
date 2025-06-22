@@ -2,13 +2,13 @@ trigger:
   - main
   - release*
 
-schedules:
-  - cron: '0 3 * * 0'
-    displayName: 'Weekly deployment on Sunday at 3 AM'
-    branches:
-      include:
-        - release*
-    always: false
+# schedules:
+#   - cron: '0 3 * * *'
+#     displayName: 'Weekly deployment on Sunday at 3 AM'
+#     branches:
+#       include:
+#         - release*
+#     always: false
 
 
 variables:
